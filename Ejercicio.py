@@ -1,48 +1,50 @@
+# usr/bin/python
+from pprint import pprint
 
-def eliminar_espacios(string):
-    restantes = []  # Lista
-    for texto in string:
-        if texto != " ":
-            restantes.append(texto)
-    return restantes
+string = "Hola mundo este es mi string"
 
 
-def contar_repeticiones(string):
-    conteo = {}
-    for letra in eliminar_espacios(string):
-        print(letra)
-        if letra in conteo:
-            conteo[letra] += 1
-        if letra not in conteo:
-            conteo[letra] = 1
-    return conteo
+def quita_espacios(texto):
+    return [char for char in texto if char != " "]
 
 
-def ordenar_llaves_por_valor(diccionario):
-    lista = []
-    for llave in diccionario:
-        lista.append((diccionario[llave], llave))
-    lista.sort(reverse=True)
-    return lista
+def cuenta_caracteres(lista):
+    chars_dict = {}
+    for char in lista:
+        if char in chars_dict:
+            chars_dict[char] += 1
+        else:
+            chars_dict[char] = 1
+    return chars_dict
 
 
-def ordenar_llaves_por_valor(diccionario):
-    print(diccionario)
-    lista = []
-    for llave in diccionario:
-        lista.append((diccionario[llave], llave))
-        print(lista)
-    lista.sort(reverse=True)
-    return lista
+def ordenar(dict):
+    return sorted(
+        dict.items(),
+        key=lambda key: key[1], reverse=True)
 
 
-def tuplas_con_mayor_valor(lista):
-    mayor = []
-    max_valor = max(lista, key=lambda x: x[1])[1]
-    for tupla in lista:
-        if tupla[1] == max_valor:
-            mayor.append(tupla)
-    return mayor
+def mayores_tuplas(lista):
+    maximo = lista[0][1]
+    respuesta = {}
+    for orden in lista:
+        if maximo > orden[1]:
+            break
+        respuesta[orden[0]] = orden[1]
+    return respuesta
 
-# print(tuplas_con_mayor_valor(
-    [("a", 3), ("b", 2), ("c", 4), ("d", 4)]))  # tuplas
+
+def crea_mensaje(diccionario):
+    mensaje = "Los que más se repiten son:\n"
+    for key, valor in diccionario.items():
+        mensaje += f"- {key} con {valor} repeticiones\n"
+    return mensaje
+
+
+sin_espacios = quita_espacios(string)
+contados = cuenta_caracteres(sin_espacios)
+ordenados = ordenar(contados)
+mayores = mayores_tuplas(ordenados)
+mensaje = crea_mensaje(mayores)
+# pprint(mensaje, width=1)
+print(mensaje)
